@@ -21,8 +21,14 @@ namespace WebAPI.Controllers
         }
 
         [HttpGet("getall")]
-        public List<Grade> GetAll()
+        public ActionResult GetAll()
         {
-            return _gradeService.GetAll();        }
+            var result = _gradeService.GetAll();
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
+        }
     }
 }

@@ -1,4 +1,5 @@
-﻿using Entities.Concrete;
+﻿using Core.Results;
+using Entities.Concrete;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -7,7 +8,8 @@ namespace Business.Abstract
 {
     public interface IStudentService
     {
-        void Add(Student student);
-        List<Student> GetAll();
+        IResult Add(Student student);
+        IDataResult<List<Student>> GetAll();
+        IDataResult<Student> GetByStudentNumber(string studentNumber);
     }
 }

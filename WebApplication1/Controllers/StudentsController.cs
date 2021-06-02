@@ -24,11 +24,16 @@ namespace WebAPI.Controllers
         }
 
         [HttpGet("getall")]
-        public List<Student> GetAll()
+        public IActionResult GetAll()
         {
             
             var result= _studentService.GetAll();
-            return result;
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
+            
             
         }
     }

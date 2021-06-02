@@ -1,4 +1,6 @@
 ﻿using Business.Abstract;
+using Business.BusinessAspects.Autofac;
+using Core.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
 using System;
@@ -15,15 +17,16 @@ namespace Business.Concrete
         {
             _gradeDal = gradeDal;
         }
-
-        public void Add(Grade grade)
+        //[SecuredOperation("admin,teacher")]
+        public IResult Add(Grade grade)
         {
-            throw new NotImplementedException();
+            _gradeDal.Add(grade);
+            return new SuccessResult();
         }
 
-        public List<Grade> GetAll()
+        public IDataResult<List<Grade>> GetAll()
         {
-            return _gradeDal.GetAll();
+            return new SuccessDataResult<List<Grade>>(_gradeDal.GetAll());
         }
     }
 }

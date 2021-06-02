@@ -1,4 +1,7 @@
 ﻿using Business.Abstract;
+using Business.BusinessAspects.Autofac;
+using Business.Constants;
+using Core.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
 using System;
@@ -11,19 +14,26 @@ namespace Business.Concrete
     {
         IStudentDal _studentDal;
 
+        
         public StudentManager(IStudentDal studentDal)
         {
             _studentDal = studentDal;
         }
 
-        public void Add(Student student)
+        public IResult Add(Student student)
         {
-            throw new NotImplementedException();
+            _studentDal.Add(student);
+            return new SuccessResult(Messages.StudentAdded);
+        }
+        [SecuredOperation("admin,teacher")]
+        public IDataResult<List<Student>> GetAll()
+        {
+            return new SuccessDataResult<List<Student>>(_studentDal.GetAll(),Messages.StudentsListed);
         }
 
-        public List<Student> GetAll()
+        public IDataResult<Student> GetByStudentNumber(string studentNumber)
         {
-            return _studentDal.GetAll();
+            return new SuccessDataResult<Student>(_studentDal.Get(x => x.StudentNumber == studentNumber));
         }
     }
 }
